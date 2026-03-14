@@ -2,6 +2,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Star, Send, ChevronLeft, MessageSquare, Trophy, Coffee, Shirt, ShoppingBag, Utensils, Globe, Zap, Building, Search, CheckCircle2, User, Briefcase, Loader2 } from 'lucide-react';
 
+/**
+ * MARKETMATCH - CONSULTORÍA INTELIGENTE
+ * Este archivo es auto-contenido y está listo para ser publicado.
+ * Utiliza Tailwind CSS para los estilos y Lucide React para la iconografía.
+ */
+
+// --- CONFIGURACIÓN DE API ---
+// Nota: La apiKey se maneja de forma dinámica en el entorno de ejecución.
 const apiKey = ""; 
 
 const DATA_GEOGRAPHY = {
@@ -176,11 +184,12 @@ const App = () => {
           systemInstruction: { parts: [{ text: systemPrompt }] }
         })
       });
+      
       const data = await response.json();
-      const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Perfecto. Para ser más preciso con mi propuesta, ¿cuál es el presupuesto estimado que tienes asignado?";
+      const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Entiendo perfectamente. Para avanzar, ¿podrías comentarme qué presupuesto aproximado tienes contemplado para esta fase del proyecto?";
       setChatMessages(prev => [...prev, { role: 'ai', text: aiText }]);
     } catch (error) {
-      setChatMessages(prev => [...prev, { role: 'ai', text: "Entiendo. ¿Me podrías dar más detalles sobre la urgencia de este requerimiento?" }]);
+      setChatMessages(prev => [...prev, { role: 'ai', text: "Entiendo. ¿Me podrías dar más detalles sobre la urgencia y los objetivos específicos de este requerimiento?" }]);
     } finally {
       setIsTyping(false);
     }
@@ -295,52 +304,61 @@ const App = () => {
         )}
 
         {step === 'chat' && (
-          <div className="bg-[#080808] border border-white/10 rounded-[2.5rem] h-[700px] flex flex-col animate-in zoom-in-95 duration-500 max-w-3xl mx-auto overflow-hidden">
+          <div className="bg-[#080808] border border-white/10 rounded-[2.5rem] h-[700px] flex flex-col animate-in zoom-in-95 duration-500 max-w-3xl mx-auto overflow-hidden shadow-2xl shadow-amber-500/5">
             <div className="bg-white/5 p-6 border-b border-white/5 flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <img src={selectedSpecialist.photo} className="w-12 h-12 rounded-xl object-cover border border-amber-500/20" />
                 <div>
                   <h3 className="text-md font-black">{selectedSpecialist.name}</h3>
-                  <p className="text-[9px] text-amber-500 font-bold uppercase tracking-widest">{selectedSpecialist.isJunior ? 'Junior' : 'Senior'}</p>
+                  <p className="text-[9px] text-amber-500 font-bold uppercase tracking-widest">{selectedSpecialist.isJunior ? 'Junior Specialist' : 'Senior Advisor'}</p>
                 </div>
               </div>
-              <button onClick={() => setStep('results')} className="text-white/20 hover:text-white transition-all"><ChevronLeft /></button>
+              <button onClick={() => setStep('results')} className="text-white/20 hover:text-white transition-all p-2 bg-white/5 rounded-full"><ChevronLeft size={20} /></button>
             </div>
+            
             <div className="flex-1 overflow-y-auto p-8 space-y-6 scrollbar-hide">
               {chatMessages.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[80%] p-5 rounded-3xl text-sm leading-relaxed ${msg.role === 'user' ? 'bg-amber-500 text-black font-bold' : 'bg-white/5 text-white/80 border border-white/5'}`}>
+                  <div className={`max-w-[85%] p-5 rounded-3xl text-sm leading-relaxed ${msg.role === 'user' ? 'bg-amber-500 text-black font-bold shadow-lg shadow-amber-500/10' : 'bg-white/5 text-white/90 border border-white/5'}`}>
                     {msg.text}
                   </div>
                 </div>
               ))}
               {isTyping && (
                 <div className="flex gap-1 items-center ml-2">
-                  <div className="w-1 h-1 bg-amber-500 rounded-full animate-bounce" />
-                  <div className="w-1 h-1 bg-amber-500 rounded-full animate-bounce [animation-delay:0.2s]" />
-                  <div className="w-1 h-1 bg-amber-500 rounded-full animate-bounce [animation-delay:0.4s]" />
+                  <div className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-bounce" />
+                  <div className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-bounce [animation-delay:0.2s]" />
+                  <div className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-bounce [animation-delay:0.4s]" />
                 </div>
               )}
               <div ref={chatEndRef} />
             </div>
-            <form onSubmit={(e) => { e.preventDefault(); sendMessage(); }} className="p-6 border-t border-white/5 bg-black/40 flex gap-3">
+
+            <form onSubmit={(e) => { e.preventDefault(); sendMessage(); }} className="p-6 border-t border-white/5 bg-black/60 backdrop-blur-md flex gap-3">
               <input 
                 type="text" 
-                placeholder="Responde aquí..." 
-                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-5 py-4 outline-none focus:border-amber-500 text-sm" 
+                placeholder="Escribe tu respuesta aquí..." 
+                className="flex-1 bg-white/5 border border-white/10 rounded-2xl px-6 py-4 outline-none focus:border-amber-500 text-sm transition-all focus:ring-1 focus:ring-amber-500/20" 
                 value={inputValue} 
                 onChange={(e) => setInputValue(e.target.value)} 
                 disabled={isTyping} 
               />
-              <button type="submit" className="bg-amber-500 text-black px-6 rounded-xl hover:bg-white transition-all disabled:opacity-50" disabled={isTyping || !inputValue.trim()}>
-                <Send size={18} />
+              <button 
+                type="submit" 
+                className="bg-amber-500 text-black px-6 rounded-2xl hover:bg-white transition-all disabled:opacity-50 flex items-center justify-center group" 
+                disabled={isTyping || !inputValue.trim()}
+              >
+                <Send size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
               </button>
             </form>
           </div>
         )}
       </main>
       
-      <footer className="py-12 text-center opacity-20 text-[8px] font-black uppercase tracking-[1em]">MarketMatch Global Network</footer>
+      <footer className="py-12 text-center">
+        <div className="opacity-20 text-[8px] font-black uppercase tracking-[1em] mb-4">MarketMatch Global Network</div>
+        <div className="text-[10px] text-white/10 font-medium">© 2026 Inteligencia de Mercado Descentralizada</div>
+      </footer>
     </div>
   );
 };
