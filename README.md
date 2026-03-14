@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Star, Send, ChevronLeft, MessageSquare, Trophy, Coffee, Shirt, ShoppingBag, Utensils, Globe, Zap, Building, Search, CheckCircle2, User, Briefcase, Loader2 } from 'lucide-react';
 
-// --- CONFIGURACIÓN ---
 const apiKey = ""; 
 
 const DATA_GEOGRAPHY = {
